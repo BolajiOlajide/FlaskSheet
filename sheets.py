@@ -64,18 +64,36 @@ def read(credentials):
                               discoveryServiceUrl=discoveryUrl)
 
     spreadsheetId = dotenv.get('SHEET_ID')
-    rangeName = 'Class Data!A2:B'
+    rangeName = 'Class Data!A2:C'
     result = service.spreadsheets().values().get(
         spreadsheetId=spreadsheetId, range=rangeName).execute()
     values = result.get('values', [])
 
     if not values:
-        return {}
+        return []
     else:
         print('Name, Major:')
-        result = {}
+        result = []
         for row in values:
-            # Print columns A and E, which correspond to indices 0 and 4.
-            result[row[0]] = row[1]
-            print('%s, %s' % (row[0], row[1]))
+            # Print columns A and C, which correspond to indices 0 and 4.
+            todos = {}
+            todos['name'] = row[0]
+            todos['description'] = row[1]
+            todos['status'] = row[2]
+            result.append(todos)
+            print('%s, %s, %s' % (row[0], row[1], row[2]))
         return result
+
+def write(credentials):
+    http = credentials.authorize(httplib2.Http())
+    discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?'
+                    'version=v4')
+    service = discovery.build('sheets', 'v4', http=http,
+                              discoveryServiceUrl=discoveryUrl)
+
+    spreadsheetId = dotenv.get('SHEET_ID')
+    rangeName = 'Class Data!A2:C'
+    result = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheetId, range=rangeName).execute()
+    values = result.get('values', [])
+

@@ -4,20 +4,37 @@
 	<title>FlaskSheet</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+	 <!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
 </head>
 <body>
-	<div class="ui container">
-	  <h3>Welcome to FlaskSheet</h3>
-	  <button class="ui button">
-	  	Follow
-	  </button>
-	  {{ details }}
+	<div class="container">
+		<h3>Welcome to FlaskSheet</h3>
+		<p> This is the list </p>
+		<table>
+	        <thead>
+	          <tr>
+	              <th>Name</th>
+	              <th>Description</th>
+	              <th>Status</th>
+	          </tr>
+	        </thead>
+	        <tbody>
+	        	{% for todo in todos %}
+					<tr>
+			            <td>{{ todo['name'] }}</td>
+			            <td>{{ todo['description'] }}</td>
+			            <td>{{ todo['status'] }}</td>
+					</tr>
+				{% endfor %}
+	        </tbody>
+        </table>
 	</div>
 	<script
 	  src="https://code.jquery.com/jquery-3.1.1.min.js"
 	  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
 	  crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 </body>
 </html>
