@@ -3,15 +3,23 @@
 <head>
 	<title>FlaskSheet</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+	<link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet" />
+	<link rel="stylesheet" href={{ url_for('static', filename='styles.css') }} />
 	 <!-- Compiled and minified CSS -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css" />
 </head>
 <body>
 	<div class="container">
 		<h3>Welcome to FlaskSheet</h3>
-		<p> This is the list </p>
-		<table>
+        <form method="POST" action="/" id="form">
+		    {{ form.csrf_token }}
+		    {{ form.name.label }} {{ form.name(size=10) }}
+		    {{ form.description.label }} {{ form.description(size=10) }}
+		    {{ form.status.label }} {{ form.status(size=10) }}
+		    <input type="submit" value="SUBMIT" class="submit">
+		</form>
+		<table class="striped centered">
 	        <thead>
 	          <tr>
 	              <th>Name</th>
@@ -29,6 +37,7 @@
 				{% endfor %}
 	        </tbody>
         </table>
+        <br />
 	</div>
 	<script
 	  src="https://code.jquery.com/jquery-3.1.1.min.js"

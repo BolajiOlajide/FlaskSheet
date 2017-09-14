@@ -18,7 +18,7 @@ except ImportError:
 
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/sheets.googleapis.com-python-quickstart.json
-SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
+SCOPES = 'https://www.googleapis.com/auth/spreadsheets'
 CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'FLASK SHEET'
 
@@ -31,8 +31,7 @@ def get_credentials():
     Returns:
         Credentials, the obtained credential.
     """
-    home_dir = os.path.expanduser('~')
-    credential_dir = os.path.join(home_dir, '.credentials')
+    credential_dir = os.path.join('.credentials')
     if not os.path.exists(credential_dir):
         os.makedirs(credential_dir)
     credential_path = os.path.join(credential_dir,
@@ -72,7 +71,6 @@ def read(credentials):
     if not values:
         return []
     else:
-        print('Name, Major:')
         result = []
         for row in values:
             # Print columns A and C, which correspond to indices 0 and 4.
@@ -81,19 +79,23 @@ def read(credentials):
             todos['description'] = row[1]
             todos['status'] = row[2]
             result.append(todos)
-            print('%s, %s, %s' % (row[0], row[1], row[2]))
         return result
 
-def write(credentials):
-    http = credentials.authorize(httplib2.Http())
-    discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?'
-                    'version=v4')
-    service = discovery.build('sheets', 'v4', http=http,
-                              discoveryServiceUrl=discoveryUrl)
+def write(credentials, values):
+    service = discovery.build('sheets', 'v4', credentials=credentials)
 
-    spreadsheetId = dotenv.get('SHEET_ID')
-    rangeName = 'Class Data!A2:C'
-    result = service.spreadsheets().values().get(
-        spreadsheetId=spreadsheetId, range=rangeName).execute()
-    values = result.get('values', [])
+    # The ID of the spreadsheet to update.
+    spreadsheet_id = dotenv.get('SHEET_ID')  # TODO: Update placeholder value.
 
+    # The A1 notation of the values to update.
+    range_ = 'Class Data!A2:C'  # TODO: Update placeholder value.
+
+    value_range_body = {
+        # TODO: Add desired entries to the request body. All existing entries
+        # will be replaced.
+        'values': values
+    }
+
+    request = service.spreadsheets().values().append(spreadsheetId=spreadsheet_id, range=range_, 
+        body=value_range_body, valueInputOption="USER_ENTERED")
+    response = request.execute()
