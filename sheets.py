@@ -63,7 +63,7 @@ def read(credentials):
                               discoveryServiceUrl=discoveryUrl)
 
     spreadsheetId = dotenv.get('SHEET_ID')
-    rangeName = 'Class Data!A2:C'
+    rangeName = 'Sheet1!A2:C'
     result = service.spreadsheets().values().get(
         spreadsheetId=spreadsheetId, range=rangeName).execute()
     values = result.get('values', [])
